@@ -3,46 +3,48 @@ import * as THREE from 'three';
 export function createHammer(scene) {
     const group = new THREE.Group();
 
-    // 锤柄 (木质感)
+    // 锤柄 (改为浅色木纹/金属感)
     const handleGeometry = new THREE.CylinderGeometry(0.02, 0.02, 1, 16);
     const handleMaterial = new THREE.MeshStandardMaterial({
-        color: 0x442200,
-        roughness: 0.9,
+        color: 0xaaaaaa, // 浅灰色
+        roughness: 0.3,
+        metalness: 0.8,
     });
     const handle = new THREE.Mesh(handleGeometry, handleMaterial);
-    handle.position.y = 0.4; // 偏离中心以便旋转
+    handle.position.y = 0.4; 
     handle.castShadow = true;
     group.add(handle);
 
-    // 锤头 (重工业感)
+    // 锤头 (改为高亮银白色/不锈钢感)
     const headGeometry = new THREE.BoxGeometry(0.15, 0.15, 0.3);
     const headMaterial = new THREE.MeshStandardMaterial({
-        color: 0x222222,
-        roughness: 0.7,
-        metalness: 0.8,
+        color: 0xffffff, // 纯白/银色
+        roughness: 0.1,
+        metalness: 0.9,
+        emissive: 0x444444, // 带有微弱的自发光，使其在暗处也清晰
     });
     const head = new THREE.Mesh(headGeometry, headMaterial);
     head.position.y = 0.9;
     head.castShadow = true;
     group.add(head);
 
-    // 锤子打击面 (炽热)
-    const faceGeometry = new THREE.PlaneGeometry(0.1, 0.25);
+    // 锤子打击面 (改为极亮白黄色，增加视觉重心)
+    const faceGeometry = new THREE.PlaneGeometry(0.12, 0.28);
     const faceMaterial = new THREE.MeshStandardMaterial({
-        color: 0xff3300,
-        emissive: 0xff1100,
-        emissiveIntensity: 1.5,
+        color: 0xffffff,
+        emissive: 0xffff00,
+        emissiveIntensity: 5, // 极强发光
     });
     const face = new THREE.Mesh(faceGeometry, faceMaterial);
-    face.position.set(0, 0.9, 0.151); // 贴在锤头一侧
+    face.position.set(0, 0.9, 0.151); 
     group.add(face);
 
     // 初始位置
     group.position.set(0, 1.2, -0.1);
     group.rotation.x = Math.PI / 3;
 
-    // 整体放大一些，作为指针更清晰
-    group.scale.set(1.5, 1.5, 1.5);
+    // 极致放大，作为交互指针极其醒目
+    group.scale.set(6.0, 6.0, 6.0);
     
     scene.add(group);
     return group;

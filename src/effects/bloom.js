@@ -9,9 +9,9 @@ export function createBloom(renderer, scene, camera) {
 
     const bloomPass = new UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        1.5, // 强度
-        0.4, // 半径
-        0.85 // 阈值
+        2.0,  // 增加强度，让球体看起来更炽热
+        0.1,  // 极小的半径，确保光晕紧贴球体，不扩散
+        10  // 阈值调低一点点，让红色部分也能产生辉光
     );
 
     const composer = new EffectComposer(renderer);

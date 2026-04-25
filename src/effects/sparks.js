@@ -5,7 +5,7 @@ import * as THREE from 'three';
  * 修复了地面碰撞效果与粒子寿命
  */
 export function createSparks(scene) {
-    const maxParticles = 100000;
+    const maxParticles = 50000; // 降低上限以提升性能
     const particles = [];
     
     // 纹理生成
@@ -41,8 +41,9 @@ export function createSparks(scene) {
     const dummy = new THREE.Object3D();
 
     return {
-        spawn(pos) {
-            const count = 2000 + Math.random() * 3000;
+        spawn(pos, speedFactor = 1.0) {
+            // 数量受速度影响，基础 1000-2000
+            const count = (1000 + Math.random() * 1000) * speedFactor;
             
             for (let i = 0; i < count; i++) {
                 if (particles.length >= maxParticles) break;
@@ -66,7 +67,8 @@ export function createSparks(scene) {
 
                 const phi = Math.random() * Math.PI * 2;
                 const theta = (Math.random() * 0.6 + 0.1) * Math.PI; 
-                const speed = (25 + Math.random() * 35) * speedMult;
+                // 爆发速度受速度影响
+                const speed = (25 + Math.random() * 35) * speedMult * speedFactor;
                 
                 particles.push({
                     position: new THREE.Vector3(pos.x, pos.y, pos.z),
