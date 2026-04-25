@@ -2,7 +2,6 @@ import { createRenderer } from './scene/renderer.js';
 import { createCamera } from './scene/camera.js';
 import { createLights } from './scene/lights.js';
 import { createScene } from './scene/scene.js';
-import { createAnvil } from './objects/anvil.js';
 import { createHammer } from './objects/hammer.js';
 import { createGround } from './objects/ground.js';
 import { createMoltenIron } from './objects/iron.js';
@@ -21,7 +20,6 @@ document.body.appendChild(renderer.domElement);
 const lights = createLights(scene);
 
 // 物体
-const anvil = createAnvil(scene);
 const hammer = createHammer(scene);
 const ground = createGround(scene);
 const irons = createMoltenIron(scene);

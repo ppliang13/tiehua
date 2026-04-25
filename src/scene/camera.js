@@ -9,10 +9,10 @@ export function createCamera() {
     );
     
     // 远景视角：拉远到 60，高度提升到 15，观察全局
-    camera.position.set(0, 15, 60);
+    camera.position.set(0, 25, 100);
     
     // 视点稍微向下倾斜，看向 y=6，这样能同时看到空中的打击点和地面
-    camera.lookAt(0, 6, 0);
+    camera.lookAt(0, 3, 0);
     
     return camera;
 }

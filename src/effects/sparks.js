@@ -42,8 +42,8 @@ export function createSparks(scene) {
 
     return {
         spawn(pos, speedFactor = 1.0) {
-            // 数量受速度影响，基础 1000-2000
-            const count = (1000 + Math.random() * 1000) * speedFactor;
+            // 数量受速度影响，基础 2000-4000
+            const count = (2000 + Math.random() * 2000) * speedFactor;
             
             for (let i = 0; i < count; i++) {
                 if (particles.length >= maxParticles) break;
@@ -65,29 +65,34 @@ export function createSparks(scene) {
                     decay = 0.1; // 增长寿命
                 }
 
+                // --- 打铁花扇形喷射逻辑 ---
+                // 1. 限制在向上45度的扇形范围内 (theta 接近 0 是向上)
+                // Math.random() * 0.25 * Math.PI 约等于 0 到 45 度
+                const theta = (Math.random() * 0.5) * Math.PI; 
                 const phi = Math.random() * Math.PI * 2;
-                const theta = (Math.random() * 0.6 + 0.1) * Math.PI; 
-                // 爆发速度受速度影响
-                const speed = (25 + Math.random() * 35) * speedMult * speedFactor;
+                
+                // 2. 爆发速度：需要足够大以抵消重力产生“上冲”感
+                const speed = (20 + Math.random() * 15) * speedMult * speedFactor;
+                
+                // 3. 计算速度向量：增加向上(Y)的权重，减小横向(X,Z)的扩散
+                const vx = Math.sin(theta) * Math.cos(phi) * speed * 1.2; // 横向压缩
+                const vy = Math.cos(theta) * speed;                      // 纵向加强
+                const vz = Math.sin(theta) * Math.sin(phi) * speed * 1.2; // 横向压缩
                 
                 particles.push({
                     position: new THREE.Vector3(pos.x, pos.y, pos.z),
-                    velocity: new THREE.Vector3(
-                        Math.sin(theta) * Math.cos(phi) * speed,
-                        Math.cos(theta) * speed,
-                        Math.sin(theta) * Math.sin(phi) * speed
-                    ),
+                    velocity: new THREE.Vector3(vx, vy, vz),
                     life: 1.0,
                     decay: decay * (0.8 + Math.random() * 0.4),
                     size: size,
-                    drag: 0.97 + Math.random() * 0.02,
+                    drag: 0.98 + Math.random() * 0.01, // 略微减小空气阻力让粒子冲得更高
                     onGround: false
                 });
             }
         },
 
         update(delta) {
-            const gravity = -30;
+            const gravity = -45; // 增加重力感，让下落轨迹更明显
             let activeCount = 0;
 
             for (let i = particles.length - 1; i >= 0; i--) {

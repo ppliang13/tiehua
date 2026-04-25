@@ -11,7 +11,7 @@ export function setupHit(hammer, sparks, smoke, camera, lights, scene, irons, sl
     const mouse = new THREE.Vector2();
     const currentMouseWorld = new THREE.Vector3();
     
-    const audio = new Audio('public/audio/打铁花开头.mp3');
+    const audio = new Audio('audio/打铁花开头.mp3');
     
     // 强制预加载并设置初始音量
     audio.load();
@@ -138,11 +138,10 @@ export function setupHit(hammer, sparks, smoke, camera, lights, scene, irons, sl
     // 自动产生火球的循环 - 降低频率
     function autoSpawn() {
         // 降低产生频率和数量
-        const count = 1; // 每次只产生 1 个
         irons.spawn();
         
         // 随机下次产生时间：拉长间隔 (1.0秒 - 2.5秒)
-        const nextSpawn = 1000 + Math.random() * 1500;
+        const nextSpawn = 700 + Math.random() * 1000;
         setTimeout(autoSpawn, nextSpawn);
     }
     autoSpawn();
