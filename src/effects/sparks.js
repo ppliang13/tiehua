@@ -5,7 +5,7 @@ import * as THREE from 'three';
  * 修复了地面碰撞效果与粒子寿命
  */
 export function createSparks(scene) {
-    const maxParticles = 50000; // 降低上限以提升性能
+    const maxParticles = 200000; // 降低上限以提升性能
     const particles = [];
     
     // 纹理生成
@@ -133,7 +133,7 @@ export function createSparks(scene) {
                     dummy.rotateX(Math.PI / 2);
                     
                     // 飞行中的拉伸
-                    const stretch = Math.max(0.1, p.velocity.length() * 0.06 * p.life);
+                    const stretch = Math.max(0.1, p.velocity.length() * 0.08 * p.life);
                     dummy.scale.set(p.size, stretch, p.size);
                 } else {
                     // 落地后变成小亮点

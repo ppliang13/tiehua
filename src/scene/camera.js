@@ -12,7 +12,7 @@ export function createCamera() {
     camera.position.set(0, 25, 100);
     
     // 视点稍微向下倾斜，看向 y=6，这样能同时看到空中的打击点和地面
-    camera.lookAt(0, 3, 0);
+    camera.lookAt(0, 10, 0);
     
     return camera;
 }
